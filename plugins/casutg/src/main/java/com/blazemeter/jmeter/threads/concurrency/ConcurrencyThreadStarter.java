@@ -59,10 +59,15 @@ public class ConcurrencyThreadStarter extends AbstractThreadStarter {
 
     private long getPlannedConcurrency(boolean isDebugEnabled) {
         long now = System.currentTimeMillis();
+        int stopTGCounter = Integer.valueOf(JMeterUtils.getPropDefault("stopTGCounter", "0"));
         checkNeedsPropertiesReloading(now);
         double timeOffset = (now - startTime) / 1000.0;
         if (isDebugEnabled) {
             log.debug("Time progress: " + timeOffset + "/" + (rampUp + hold));
+        }
+
+        if (stopTGCounter > Integer.valueOf(JMeterUtils.getPropDefault("stopTGCounterThreshold", "4"))) {
+            return -1; // means feeding queue supply is over
         }
 
         timeOffset -= defaultShiftRampup;
