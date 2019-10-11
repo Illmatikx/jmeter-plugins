@@ -67,6 +67,7 @@ public class ConcurrencyThreadStarter extends AbstractThreadStarter {
         }
 
         if (stopTGCounter > Integer.valueOf(JMeterUtils.getPropDefault("stopTGCounterThreshold", "4"))) {
+            log.info("Done supplying threads due to exceeded threshold of supply errors");
             return -1; // means feeding queue supply is over
         }
 
